@@ -1,0 +1,26 @@
+export const darkTheme = {
+  palette: {
+    themePrimary: '#5ae3e6',
+      themeLighterAlt: '#040909',
+      themeLighter: '#0e2425',
+      themeLight: '#1b4445',
+      themeTertiary: '#36888a',
+      themeSecondary: '#4fc8ca',
+      themeDarkAlt: '#69e6e8',
+      themeDark: '#7eeaec',
+      themeDarker: '#9eeff1',
+      neutralLighterAlt: '#000a0b',
+      neutralLighter: '#021315',
+      neutralLight: '#052125',
+      neutralQuaternaryAlt: '#092a2f',
+      neutralQuaternary: '#0c3237',
+      neutralTertiaryAlt: '#5ae3e6',
+      neutralTertiary: '#c8c8c8',
+      neutralSecondary: '#d0d0d0',
+      neutralPrimaryAlt: '#dadada',
+      neutralPrimary: '#ffffff',
+      neutralDark: '#f4f4f4',
+      black: '#f8f8f8',
+      white: '#000000',
+  }
+};
