@@ -7,6 +7,7 @@ import { Provider } from "react-redux"
 import { createStore, applyMiddleware, Store } from 'redux'
 import thunk from "redux-thunk"
 import reducer from "./redux/store/reducer";
+import NoteEditor from "./components/NoteEditor";
 
 const store: Store<NoteState, NoteAction> & {
   dispatch: DispatchType
@@ -20,6 +21,7 @@ function App() {
         <CommandBar
           items={_items}
         />
+        <NoteEditor id={-1} />
       </div>
     </ThemeProvider>
     </Provider>
