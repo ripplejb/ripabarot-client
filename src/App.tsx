@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {FormEvent} from 'react';
 import './App.css';
-import {CommandBar, ICommandBarItemProps, initializeIcons, ThemeProvider} from "@fluentui/react";
-import {darkTheme} from "./themes";
+import {
+  Provider as FluentProvider,
+  Menu, MenuItemProps, teamsDarkV2Theme
+} from "@fluentui/react-northstar"
+import {AddIcon} from '@fluentui/react-icons-northstar'
 
-import { Provider } from "react-redux"
-import { createStore, applyMiddleware, Store } from 'redux'
+import {Provider} from "react-redux"
+import {createStore, applyMiddleware, Store} from 'redux'
 import thunk from "redux-thunk"
 import reducer from "./redux/store/reducer";
 import NoteEditor from "./components/NoteEditor";
@@ -13,31 +16,28 @@ const store: Store<NoteState, NoteAction> & {
   dispatch: DispatchType
 } = createStore(reducer, applyMiddleware(thunk))
 
+const onAddNewNote = (e: FormEvent, prop: MenuItemProps | undefined) => {
+  alert("Clicked Add New.")
+}
+
 function App() {
   return (
-    <Provider store={store}>
-    <ThemeProvider applyTo="body" theme={darkTheme}>
-      <div className="App">
-        <CommandBar
-          items={_items}
-        />
-        <NoteEditor id={-1} />
-      </div>
-    </ThemeProvider>
-    </Provider>
+    <FluentProvider theme={teamsDarkV2Theme}>
+      <Provider store={store}>
+        <Menu items={
+          [
+            {
+              icon: <AddIcon/>,
+              key: 'New Note',
+              onClick: (e, props) => onAddNewNote(e, props)
+            }
+          ]
+        }></Menu>
+        <NoteEditor id={-1}/>
+      </Provider>
+    </FluentProvider>
   );
 }
 
-initializeIcons();
-
-const _items : ICommandBarItemProps[] = [
-  {
-    key: 'newItem',
-    text: 'New',
-    cacheKey: 'newCacheKey',
-    iconProps: {iconName: 'add'},
-    onClick: ev => {alert('You Click New.')}
-  }
-]
 
 export default App;
