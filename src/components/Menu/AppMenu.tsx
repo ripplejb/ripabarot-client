@@ -8,7 +8,9 @@ import {EmptyNote} from "../../types/common/common.constants";
 const AppMenu: FC = () => {
   const dispatch = useDispatch()
   const onAddNewNote = () => {
-    dispatch({type: ADD_NOTE, note: EmptyNote()})
+    const newNote = EmptyNote();
+    newNote.id = Math.random()
+    dispatch({type: ADD_NOTE, note: newNote})
   }
 
   return (

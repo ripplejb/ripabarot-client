@@ -13,26 +13,35 @@ type Props = {
 const NoteEditor: FC<Props> = (props) => {
 
   const currentNote = useSelector<NoteState, INote>(state => {
-    return state.notes.find(n => n.id === props.id) ?? EmptyNote()
+    let foundNode = state.notes.find(n => n.id === props.id)
+    if (foundNode === undefined) {
+      foundNode = EmptyNote();
+      foundNode.note = 'ERROR'
+    }
+    return foundNode
   })
 
   const dispatch = useDispatch()
 
   const isSelected = useSelector<NoteState, boolean | undefined>(state => {
-    return (state.notes.find(n => n.id === props.id) ?? EmptyNote()).selected
+    let foundNode = state.notes.find(n => n.id === currentNote.id);
+    if (foundNode === undefined) {
+      currentNote.note = 'ERROR'
+      return false;
+    };
+    return foundNode.selected;
   })
 
   const handleNoteChange = (e: { target: { value: string; }; }) => {
     currentNote.note = e.target.value;
-    if (currentNote.id === -1 && currentNote.note !== "") {
-      currentNote.id = Math.random()
-    }
   }
 
   const editField = () => <TextField multiline
                             placeholder='Type note here.'
                             rows={10}
-                            onChange={handleNoteChange} />
+                            onChange={handleNoteChange}
+                            defaultValue={currentNote.note}
+                            />
 
   const viewField = () => <Typography variant="body2" color="textSecondary" component="p" >
     {currentNote.note === "" ? "Click here to start taking note." : currentNote.note}

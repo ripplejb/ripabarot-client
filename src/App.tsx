@@ -5,7 +5,7 @@ import '@fontsource/roboto';
 import {Provider} from "react-redux"
 import {createStore, applyMiddleware, Store} from 'redux'
 import thunk from "redux-thunk"
-import reducer from "./redux/store/reducer";
+import reducer from "./redux/store/reducers/reducer";
 import NoteEditor from "./components/NoteEditor/NoteEditor";
 import NoteList from "./components/NoteList/NoteList";
 import AppMenu from "./components/Menu/AppMenu";
