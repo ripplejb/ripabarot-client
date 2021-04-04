@@ -32,6 +32,17 @@ const reducer = (
         ...state,
         notes: updateNotes
       }
+    case actionTypes.SELECT_NOTE:
+      const selectedNote = state.notes.find(n => n.id === action.note.id);
+        if (selectedNote !== undefined) {
+          state.notes.forEach(n => {
+            if (n.id === selectedNote.id) {
+              n.selected = true
+            } else {
+              n.selected = false
+            }
+          })
+        }
   }
   return state
 }

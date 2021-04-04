@@ -1,3 +1,8 @@
 .card-container {
     margin: 5px;
 }
+
+.card-container Card {
+    min-height: 100px;
+    min-width: 100px;
+}

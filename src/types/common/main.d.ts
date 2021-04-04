@@ -2,6 +2,7 @@ interface INote {
   id: number
   title: string
   note: string
+  selected?: boolean
 }
 
 type NoteState = {
