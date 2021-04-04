@@ -12,11 +12,15 @@ type Props = {
 
 const NoteEditor: FC<Props> = (props) => {
 
+  const ERROR = 'ERROR'
+  const NOTE_PLACEHOLDER = 'Type note here.'
+  const VIEW_PLACEHOLDER = 'Click here to start taking note.'
+
   const currentNote = useSelector<NoteState, INote>(state => {
     let foundNode = state.notes.find(n => n.id === props.id)
     if (foundNode === undefined) {
       foundNode = EmptyNote();
-      foundNode.note = 'ERROR'
+      foundNode.note = ERROR
     }
     return foundNode
   })
@@ -26,7 +30,7 @@ const NoteEditor: FC<Props> = (props) => {
   const isSelected = useSelector<NoteState, boolean | undefined>(state => {
     let foundNode = state.notes.find(n => n.id === currentNote.id);
     if (foundNode === undefined) {
-      currentNote.note = 'ERROR'
+      currentNote.note = ERROR
       return false;
     };
     return foundNode.selected;
@@ -37,14 +41,14 @@ const NoteEditor: FC<Props> = (props) => {
   }
 
   const editField = () => <TextField multiline
-                            placeholder='Type note here.'
+                            placeholder={NOTE_PLACEHOLDER}
                             rows={10}
                             onChange={handleNoteChange}
                             defaultValue={currentNote.note}
                             />
 
-  const viewField = () => <Typography variant="body2" color="textSecondary" component="p" >
-    {currentNote.note === "" ? "Click here to start taking note." : currentNote.note}
+  const viewField = () => <Typography variant='body2' color='textSecondary' component='p' >
+    {currentNote.note === '' ? VIEW_PLACEHOLDER : currentNote.note}
   </Typography>
 
   const cardContent = () => isSelected ? editField() : viewField()
