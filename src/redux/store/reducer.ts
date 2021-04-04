@@ -1,7 +1,8 @@
 import * as actionTypes from "./actionTypes"
+import {EmptyNote} from "../../types/common/common.constants";
 
 const initialState: NoteState = {
-  notes: []
+  notes: [EmptyNote()]
 }
 
 const reducer = (
@@ -10,13 +11,13 @@ const reducer = (
 ): NoteState => {
   switch (action.type) {
     case actionTypes.ADD_NOTE:
-      const newNote: INote = {
-        id: action.note.id,
-        title: action.note.title,
-        note: action.note.note
-      }
-      const note = state.notes.find(n => n.id === newNote.id);
+      const note = state.notes.find(n => n.id === action.note.id);
       if (note === undefined) {
+        const newNote: INote = {
+          id: action.note.id,
+          title: action.note.title,
+          note: action.note.note
+        }
         return {
           ...state,
           notes: state.notes.concat(newNote)

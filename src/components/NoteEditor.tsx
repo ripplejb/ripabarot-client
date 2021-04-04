@@ -1,9 +1,8 @@
-import {TextArea, Button, Card, CardBody, TextAreaProps} from "@fluentui/react-northstar";
-import {FormEvent, FC, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {ADD_NOTE} from "../redux/store/actionTypes";
+import {FC, useState} from "react";
+import {useSelector} from "react-redux";
 import * as React from "react";
 import {EmptyNote} from "../types/common/common.constants";
+import {Card, CardContent, TextField} from "@material-ui/core";
 
 type Props = {
   id: number
@@ -12,20 +11,14 @@ type Props = {
 const NoteEditor: FC<Props> = (props) => {
 
   const currentNote = useSelector<NoteState, INote>(state => {
-    return state.notes.find(n => n.id === props.id) ?? EmptyNote
+    return state.notes.find(n => n.id === props.id) ?? EmptyNote()
   })
-  const dispatch = useDispatch();
+  const [note, setNote] = useState(() => currentNote)
 
-  const [note, setNote] = useState(() => currentNote ?? EmptyNote)
-
-  const onSave = () => {
-    dispatch({type: ADD_NOTE, note: note})
-  }
-
-  const handleNoteChange = (e: FormEvent, prop: TextAreaProps | undefined) => {
+  const handleNoteChange = (e: { target: { value: string; }; }) => {
     setNote(prev => {
-      if (prev.note !== prop?.value) {
-        note.note = prop?.value ?? ''
+      if (prev.note !== e.target.value) {
+        note.note = e.target.value ?? ''
       }
       if (prev.id === -1) {
         prev.id = Math.random()
@@ -36,14 +29,13 @@ const NoteEditor: FC<Props> = (props) => {
 
   return (
     <Card>
-      <CardBody>
-        <TextArea fluid placeholder="Type Here..."
-                  resize={"vertical"}
-                  onChange={handleNoteChange}
-                  defaultValue={currentNote.note ?? ''}
+      <CardContent>
+        <TextField multiline
+                   placeholder='Type note here.'
+                   rows={10}
+                   onChange={handleNoteChange}
         />
-        <Button content='Save' onClick={onSave}/>
-      </CardBody>
+      </CardContent>
     </Card>
   )
 }
