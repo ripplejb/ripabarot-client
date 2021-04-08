@@ -1,7 +1,6 @@
+import * as React from "react";
 import {FC} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import * as React from "react";
-import {EmptyNote} from "../../types/common/common.constants";
 import {Card, CardContent, TextField, Typography} from "@material-ui/core";
 import './NoteEditor.css'
 import {SELECT_NOTE} from "../../redux/store/actionTypes";
@@ -15,25 +14,26 @@ const NoteEditor: FC<Props> = (props) => {
   const ERROR = 'ERROR'
   const NOTE_PLACEHOLDER = 'Type note here.'
   const VIEW_PLACEHOLDER = 'Click here to start taking note.'
+  const EmptyNote = () => {
+    return {id: -2, note: "", title: "", selected: false}
+  }
 
-  const currentNote = useSelector<NoteState, INote>(state => {
-    let foundNode = state.notes.find(n => n.id === props.id)
+  const getNode = (id: number, state: NoteState) => {
+    let foundNode = state.notes.find(n => n.id === id)
     if (foundNode === undefined) {
       foundNode = EmptyNote();
       foundNode.note = ERROR
     }
     return foundNode
-  })
+  }
+
+  const currentNote = useSelector<NoteState, INote>(state => getNode(props.id, state))
 
   const dispatch = useDispatch()
 
   const isSelected = useSelector<NoteState, boolean | undefined>(state => {
-    let foundNode = state.notes.find(n => n.id === currentNote.id);
-    if (foundNode === undefined) {
-      currentNote.note = ERROR
-      return false;
-    };
-    return foundNode.selected;
+    let foundNode = getNode(currentNote.id, state);
+    return (foundNode.id === -2) ? false : foundNode.selected;
   })
 
   const handleNoteChange = (e: { target: { value: string; }; }) => {
@@ -41,11 +41,11 @@ const NoteEditor: FC<Props> = (props) => {
   }
 
   const editField = () => <TextField multiline
-                            placeholder={NOTE_PLACEHOLDER}
-                            rows={10}
-                            onChange={handleNoteChange}
-                            defaultValue={currentNote.note}
-                            />
+                                     placeholder={NOTE_PLACEHOLDER}
+                                     rows={10}
+                                     onChange={handleNoteChange}
+                                     defaultValue={currentNote.note}
+  />
 
   const viewField = () => <Typography variant='body2' color='textSecondary' component='p' >
     {currentNote.note === '' ? VIEW_PLACEHOLDER : currentNote.note}

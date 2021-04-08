@@ -1,14 +1,14 @@
-export const addNote = (noteState: NoteState, newNode: INote) => {
-  const note = noteState.notes.find(n => n.id === newNode.id);
+export const addNote = (noteState: NoteState, newNode: INote | undefined) => {
+  const note = noteState.notes.find(n => (newNode !== undefined && n.id === newNode.id));
   if (note === undefined) {
     const emptyNoteFound = noteState.notes.find(n => n.note === '')
     if (emptyNoteFound !== undefined) {
       return selectNode(noteState, emptyNoteFound)
     }
     const newNote: INote = {
-      id: newNode.id,
-      title: newNode.title,
-      note: newNode.note
+      id: Math.random(),
+      title: "",
+      note: ""
     }
     noteState = {
       ...noteState,
@@ -30,16 +30,10 @@ export const removeNote = (noteState: NoteState, newNode: INote) => {
   }
 }
 
-export const selectNode = (noteState: NoteState, newNode: INote) => {
-  const selectedNote = noteState.notes.find(n => n.id === newNode.id);
+export const selectNode = (noteState: NoteState, newNode: INote | undefined) => {
+  const selectedNote = noteState.notes.find(n => (newNode !== undefined && n.id === newNode.id));
   if (selectedNote !== undefined) {
-    noteState.notes.forEach(n => {
-      if (n.id === selectedNote.id) {
-        n.selected = true
-      } else {
-        n.selected = false
-      }
-    })
+    noteState.notes.forEach(n => n.selected = n.id === selectedNote.id)
   }
   return noteState
 }

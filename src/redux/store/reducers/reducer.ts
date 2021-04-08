@@ -1,9 +1,8 @@
 import * as actionTypes from "../actionTypes"
-import {EmptyNote} from "../../../types/common/common.constants";
 import {addNote, removeNote, selectNode} from "./reducerActions";
 
 const initialState: NoteState = {
-  notes: [EmptyNote()]
+  notes: [{id: Math.random(), note: "", title: "", selected: false}]
 }
 
 const reducer = (
