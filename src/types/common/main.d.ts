@@ -11,7 +11,7 @@ type NoteState = {
 
 type NoteAction = {
   type: string
-  note: INote
+  note: INote | undefined
 }
 
 type DispatchType = (args: NoteAction) => NoteAction

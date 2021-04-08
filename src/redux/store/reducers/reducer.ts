@@ -16,8 +16,9 @@ const reducer = (
       return removeNote(state, action.note)
     case actionTypes.SELECT_NOTE:
       return selectNode(state, action.note)
+    default:
+      return state
   }
-  return state
 }
 
 export default reducer

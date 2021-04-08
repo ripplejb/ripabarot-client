@@ -14,13 +14,14 @@ export const addNote = (noteState: NoteState, newNode: INote | undefined) => {
       ...noteState,
       notes: noteState.notes.concat(newNote)
     }
-    return selectNode(noteState, newNode)
+    return selectNode(noteState, newNote)
   } else {
     return selectNode(noteState, note)
   }
 }
 
-export const removeNote = (noteState: NoteState, newNode: INote) => {
+export const removeNote = (noteState: NoteState, newNode: INote | undefined) => {
+  if (newNode === undefined) return noteState
   const updateNotes: INote[] = noteState.notes.filter(
     note => note.id !== newNode.id
   )
