@@ -2,7 +2,6 @@ import * as React from "react";
 import {FC} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Card, CardContent, TextField, Typography} from "@material-ui/core";
-import './NoteEditorStyles'
 import {SELECT_NOTE} from "../../redux/store/actionTypes";
 import {cardContainer, cardStyle} from "./NoteEditorStyles";
 
