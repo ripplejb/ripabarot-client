@@ -1,5 +1,5 @@
 import reducer from "../redux/store/reducers/reducer";
-import {ADD_NOTE} from "../redux/store/actionTypes";
+import {ADD_NOTE, REMOVE_NOTE} from "../redux/store/actionTypes";
 
 describe('Reducer Tests', () => {
   it('should return the initial state', () => {
@@ -43,4 +43,20 @@ describe('Reducer Tests', () => {
       expect(newState.notes[0].note)
         .toEqual('')
     })
+
+  it('should remove note when pass REMOVE_NOTE action.',
+    () => {
+      const noteToRemove = {id: Math.random(), note: "Test", title: "Test", selected: false};
+      const initialState = {
+        notes: [
+          noteToRemove,
+          {id: Math.random(), note: "Test2", title: "Test2", selected: false}
+        ]
+      }
+      const newState = reducer(initialState, {type: REMOVE_NOTE, note: noteToRemove})
+      expect(newState.notes.length).toEqual(1)
+      expect(newState.notes[0].note)
+        .toEqual('Test2')
+    }
+  )
 })

@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {IconButton} from "@material-ui/core";
-import {AddCircleOutlineRounded} from "@material-ui/icons";
+import {AddCircleSharp} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
 import {ADD_NOTE} from "../../redux/store/actionTypes";
 
@@ -11,10 +11,10 @@ const AppMenu: FC = () => {
   }
 
   return (
-    <IconButton
-      onClick={() =>
-        onAddNewNote()}>
-      <AddCircleOutlineRounded/>
+    <IconButton style={{color: '#7777FF'}}
+                onClick={() =>
+                  onAddNewNote()}>
+      <AddCircleSharp/>
     </IconButton>
   )
 }
