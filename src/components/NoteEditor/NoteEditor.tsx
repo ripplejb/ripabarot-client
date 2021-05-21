@@ -1,5 +1,5 @@
 import * as React from "react";
-import {FC, useState} from "react";
+import {FC, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
   Button,
@@ -17,6 +17,8 @@ import {
 import {REMOVE_NOTE, SELECT_NOTE} from "../../redux/store/actionTypes";
 import {cardCloseButtonsStyle, cardContainer, cardStyle} from "./NoteEditorStyles";
 import {CancelSharp} from "@material-ui/icons";
+import {CSSTransition} from "react-transition-group";
+import './NoteEditor.css'
 
 type Props = {
   id: number
@@ -37,6 +39,7 @@ const NoteEditor: FC<Props> = (props) => {
 
   const currentNote = useSelector<NoteState, INote>(state => getNote(props.id, state))
   const [open, setOpen] = useState(false);
+  const [removing, setRemoving] = useState(false);
 
   const dispatch = useDispatch()
 
@@ -46,16 +49,18 @@ const NoteEditor: FC<Props> = (props) => {
   })
 
   const handleRemove = () => {
-    setOpen(true);
+    setOpen(() => true);
   }
   const handleClose = (result: boolean) => {
     if (result) {
+      setRemoving(() => true);
       dispatch({type: REMOVE_NOTE, note: currentNote})
     }
-    setOpen(false);
+    setOpen(() => false);
   }
 
   const handleNoteChange = (e: { target: { value: string; }; }) => currentNote.note = e.target.value;
+  const nodeRef = useRef(null)
 
   return (
     <>
@@ -82,33 +87,35 @@ const NoteEditor: FC<Props> = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <div style={cardContainer}>
-        <div style={cardCloseButtonsStyle}>
-          <IconButton size='small' color='secondary' disabled={!isSelected} onClick={handleRemove}>
-            <CancelSharp/>
-          </IconButton>
+      <CSSTransition in={!removing} timeout={300} nodeRef={nodeRef} classNames='card'>
+        <div style={cardContainer} ref={nodeRef}>
+          <div style={cardCloseButtonsStyle}>
+            <IconButton size='small' color='secondary' disabled={!isSelected} onClick={handleRemove}>
+              <CancelSharp/>
+            </IconButton>
+          </div>
+          <Card onClick={() => {
+            dispatch({type: SELECT_NOTE, note: currentNote})
+          }} style={cardStyle}>
+            <CardContent>
+              {
+                isSelected
+                  ?
+                  <TextField multiline
+                             placeholder={NOTE_PLACEHOLDER}
+                             rows={10}
+                             onChange={handleNoteChange}
+                             defaultValue={currentNote.note}
+                  />
+                  :
+                  <Typography variant='body2' color='textSecondary' component='p'>
+                    {currentNote.note === '' ? VIEW_PLACEHOLDER : currentNote.note}
+                  </Typography>
+              }
+            </CardContent>
+          </Card>
         </div>
-        <Card onClick={() => {
-          dispatch({type: SELECT_NOTE, note: currentNote})
-        }} style={cardStyle}>
-          <CardContent>
-            {
-              isSelected
-                ?
-                <TextField multiline
-                           placeholder={NOTE_PLACEHOLDER}
-                           rows={10}
-                           onChange={handleNoteChange}
-                           defaultValue={currentNote.note}
-                />
-                :
-                <Typography variant='body2' color='textSecondary' component='p'>
-                  {currentNote.note === '' ? VIEW_PLACEHOLDER : currentNote.note}
-                </Typography>
-            }
-          </CardContent>
-        </Card>
-      </div>
+      </CSSTransition>
     </>
   )
 }
