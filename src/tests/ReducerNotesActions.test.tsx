@@ -1,9 +1,9 @@
-import reducer from "../redux/store/reducers/reducer";
+import reducerNotes from "../redux/store/reducers/reducerNotes";
 import {ADD_NOTE, REMOVE_NOTE} from "../redux/store/actionTypes";
 
-describe('Reducer Tests', () => {
+describe('Reducer Notes Tests', () => {
   it('should return the initial state', () => {
-    const initialState = reducer(undefined,
+    const initialState = reducerNotes(undefined,
       {type: "", note: {id: 0, note: '', selected: false, title: ''}})
     expect(initialState.notes.length)
       .toEqual(1)
@@ -18,7 +18,7 @@ describe('Reducer Tests', () => {
   it('should add new note when pass ADD_NOTE action only if no other empty note existed.',
     () => {
       const initialState = {notes: [{id: Math.random(), note: "Test", title: "Test", selected: false}]}
-      const newState = reducer(initialState, {type: ADD_NOTE, note: undefined})
+      const newState = reducerNotes(initialState, {type: ADD_NOTE, note: undefined})
       expect(newState.notes.length)
         .toEqual(2)
       expect(newState.notes[1].selected)
@@ -35,7 +35,7 @@ describe('Reducer Tests', () => {
           {id: Math.random(), note: "Test", title: "Test", selected: true}
         ]
       }
-      const newState = reducer(initialState, {type: ADD_NOTE, note: undefined})
+      const newState = reducerNotes(initialState, {type: ADD_NOTE, note: undefined})
       expect(newState.notes.length)
         .toEqual(2)
       expect(newState.notes[0].selected)
@@ -53,7 +53,7 @@ describe('Reducer Tests', () => {
           {id: Math.random(), note: "Test2", title: "Test2", selected: false}
         ]
       }
-      const newState = reducer(initialState, {type: REMOVE_NOTE, note: noteToRemove})
+      const newState = reducerNotes(initialState, {type: REMOVE_NOTE, note: noteToRemove})
       expect(newState.notes.length).toEqual(1)
       expect(newState.notes[0].note)
         .toEqual('Test2')

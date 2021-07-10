@@ -1,11 +1,11 @@
 import * as actionTypes from "../actionTypes"
-import {addNote, removeNote, selectNode} from "./reducerActions";
+import {addNote, removeNote, selectNode} from "./reducerNotesActions";
 
 const initialState: NoteState = {
   notes: [{id: Math.random(), note: "", title: "", selected: false}]
 }
 
-const reducer = (
+const reducerNotes = (
   state: NoteState = initialState,
   action: NoteAction
 ): NoteState => {
@@ -21,4 +21,4 @@ const reducer = (
   }
 }
 
-export default reducer
+export default reducerNotes

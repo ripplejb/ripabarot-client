@@ -5,13 +5,33 @@ interface INote {
   selected?: boolean
 }
 
+interface IUserLogin {
+  email: string,
+  password: string
+}
+
 type NoteState = {
   notes: INote[]
+}
+
+type LoginState = {
+  signedIn: boolean
+  user: string
+}
+
+type ApplicationState = {
+  loginState: LoginState
+  noteState: NoteState
 }
 
 type NoteAction = {
   type: string
   note: INote | undefined
+}
+
+type UserLoginAction = {
+  type: string
+  userLogin: IUserLogin
 }
 
 type DispatchType = (args: NoteAction) => NoteAction

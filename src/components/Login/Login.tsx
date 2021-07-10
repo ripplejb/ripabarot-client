@@ -1,14 +1,25 @@
 import {FC, useState} from "react";
-import {TextField} from "@material-ui/core";
+import {Button, TextField} from "@material-ui/core";
+import {useLoginStyle} from "./Login.css";
 
-const Login: FC = () => {
+type LoginProps = {
+  onSignedIn: (userLogin: IUserLogin) => void
+}
+
+const Login: FC<LoginProps> = (props) => {
 
   const [email_error, setEmailError] = useState("")
+  const [password_error, setPasswordError] = useState("")
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  function validateEmail(em: string): void {
+  function isEmailValid(em: string): boolean {
     const re = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    if (re.test(em)) {
+    return re.test(em)
+  }
+
+  function validateSetEmail(em: string): void {
+    if (isEmailValid(em)) {
       setEmailError(() => "")
       setEmail(() => em)
     } else {
@@ -16,23 +27,53 @@ const Login: FC = () => {
     }
   }
 
+  function validateAndSetPassword(pwd: string): void {
+    setPasswordError("")
+    setPassword(() => pwd)
+  }
+
+  const handleSignInClicked = () => {
+    if (email === "") {
+      setEmailError(() => "email must not be empty.")
+      return
+    }
+    if (password === "") {
+      setPasswordError(() => "password must not be empty.")
+      return
+    }
+    props.onSignedIn({email: email, password: password})
+  }
+
+  const classes = useLoginStyle();
 
   return (
-    <>
-      <TextField
-        error={email_error !== ""}
-        id="uid"
-        label="eMail"
-        type="email"
-        helperText={email_error}
-        onChange={(e) => validateEmail(e.target.value)}
-      />
-      <TextField
-        id="pwd"
-        label="Password"
-        type="password"
-      />
-    </>
+    <div className={classes.centered}>
+      <div className={classes.container}>
+        <TextField
+          error={email_error !== ""}
+          id="uid"
+          label="eMail"
+          type="email"
+          helperText={email_error}
+          onChange={(e) => validateSetEmail(e.target.value)}
+          className={classes.child}
+        />
+        <TextField
+          error={password_error !== ""}
+          id="pwd"
+          label="Password"
+          type="password"
+          helperText={password_error}
+          className={classes.child}
+          onChange={(e) => validateAndSetPassword(e.target.value)}
+        />
+        <Button variant={"contained"}
+                color={"primary"}
+                className={[classes.child, classes.button].join(" ")}
+                onClick={handleSignInClicked}
+        >Sign In</Button>
+      </div>
+    </div>
   )
 }
 
