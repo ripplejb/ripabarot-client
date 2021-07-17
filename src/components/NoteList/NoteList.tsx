@@ -8,7 +8,7 @@ type NoteListProps = {
 
 const NoteList: FC<NoteListProps> = (props) => {
 
-  const notes = useSelector<ApplicationState, INote[]>(state => state.noteState.notes)
+  const notes = useSelector<ApplicationState, INote[]>(state => state.notesState.notes)
 
   return (
     <div>

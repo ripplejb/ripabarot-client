@@ -37,14 +37,14 @@ const NoteEditor: FC<Props> = (props) => {
     selected: false
   }
 
-  const currentNote = useSelector<NoteState, INote>(state => getNote(props.id, state))
+  const currentNote = useSelector<ApplicationState, INote>(state => getNote(props.id, state.notesState))
   const [open, setOpen] = useState(false);
   const [removing, setRemoving] = useState(false);
 
   const dispatch = useDispatch()
 
-  const isSelected = useSelector<NoteState, boolean | undefined>(state => {
-    const foundNote = getNote(currentNote.id, state);
+  const isSelected = useSelector<ApplicationState, boolean | undefined>(state => {
+    const foundNote = getNote(currentNote.id, state.notesState);
     return (foundNote.id === -2) ? false : foundNote.selected;
   })
 

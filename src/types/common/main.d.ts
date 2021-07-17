@@ -21,7 +21,7 @@ type LoginState = {
 
 type ApplicationState = {
   loginState: LoginState
-  noteState: NoteState
+  notesState: NoteState
 }
 
 type NoteAction = {

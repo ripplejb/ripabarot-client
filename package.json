@@ -7,7 +7,6 @@
     "@fontsource/roboto": "^4.2.2",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
-    "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -48,7 +47,8 @@
     ]
   },
   "devDependencies": {
-    "@types/react-redux": "^7.1.16",
+    "@babel/parser": "^7.14.7",
+    "@types/react-redux": "^7.1.18",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0"
