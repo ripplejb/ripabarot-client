@@ -4,7 +4,7 @@ import './App.css';
 import '@fontsource/roboto';
 import {Provider} from "react-redux"
 import NotesApp from "./components/MainPage/NotesApp";
-import configureStore from "./configureStore";
+import configureStore from "./redux/configureStore";
 
 
 const store = configureStore({loginState: {user: "", signedIn: false}, notesState:{notes: new Array<INote>()}})

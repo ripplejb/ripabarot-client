@@ -22,7 +22,7 @@ const NotesApp: FC = () => {
             ?
             <>
             <AppMenu/>
-            <NoteList render={id => <NoteEditor id={id}/>}/>
+            <NoteList render={id => <NoteEditor id={id} key={id}/>}/>
             </>
             :
           <Login onSignedIn={(ul) => {
