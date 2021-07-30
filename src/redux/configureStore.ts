@@ -1,7 +1,5 @@
 import {combineReducers, createStore, MiddlewareAPI,
-  Middleware, AnyAction, Dispatch, applyMiddleware,
-  StoreEnhancer, StoreEnhancerStoreCreator, Action,
-  PreloadedState, Reducer} from 'redux'
+  Middleware, AnyAction, Dispatch, applyMiddleware} from 'redux'
 import reducerUser from "./store/reducers/reducerUser";
 import reducerNotes from "./store/reducers/reducerNotes";
 
@@ -17,29 +15,6 @@ const logger: Middleware<Dispatch> = ({getState}: MiddlewareAPI) => {
   }
 }
 
-const enhancer: StoreEnhancer<{ print5: () => void }> = (
-  createStore: StoreEnhancerStoreCreator
-): StoreEnhancerStoreCreator<{ print5: () => void }> => <
-  S = any,
-  A extends Action = AnyAction
-  >(
-  reducer: Reducer<S, A>,
-  preloadedState?: PreloadedState<S>,
-) => {
-  const store = createStore(reducer, preloadedState);
-  const newDispatch: Dispatch<A> = action => {
-    const result = store.dispatch(action);
-    return result;
-  };
-  return {
-    ...store,
-    dispatch: newDispatch,
-    print5() {
-      console.log(5);
-    }
-  };
-};
-
 export default function configureStore(applicationState:ApplicationState) {
   const combinedReducers = combineReducers({
     loginState: reducerUser,
@@ -47,5 +22,5 @@ export default function configureStore(applicationState:ApplicationState) {
   })
 
 
-  return createStore(combinedReducers, applicationState, enhancer)
+  return createStore(combinedReducers, applicationState, applyMiddleware(logger))
 }
