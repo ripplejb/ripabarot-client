@@ -21,9 +21,9 @@ describe('Reducer Notes Tests', () => {
       const newState = reducerNotes(initialState, {type: ADD_NOTE, note: undefined})
       expect(newState.notes.length)
         .toEqual(2)
-      expect(newState.notes[1].selected)
+      expect(newState.notes[0].selected)
         .toEqual(true)
-      expect(newState.notes[1].note)
+      expect(newState.notes[0].note)
         .toEqual('')
     })
 

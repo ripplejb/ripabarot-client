@@ -1,3 +1,5 @@
+const insertNote = (newNote: INote, noteState: NoteState) => new Array<INote>().concat(newNote).concat(noteState.notes)
+
 export const addNote = (noteState: NoteState, newNode: INote | undefined) => {
   const note = noteState.notes.find(n => (newNode !== undefined && n.id === newNode.id));
   if (note === undefined) {
@@ -12,7 +14,9 @@ export const addNote = (noteState: NoteState, newNode: INote | undefined) => {
     }
     noteState = {
       ...noteState,
-      notes: noteState.notes.concat(newNote)
+      notes: noteState.notes.length > 0 ?
+        insertNote(newNote, noteState) :
+        noteState.notes.concat(newNote)
     }
     return selectNode(noteState, newNote)
   } else {
