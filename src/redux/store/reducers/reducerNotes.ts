@@ -1,5 +1,5 @@
 import * as actionTypes from "../actionTypes"
-import {addNote, removeNote, selectNode} from "./reducerNotesActions";
+import {addNote, removeNote, selectNode, unSelectNode} from "./reducerNotesActions";
 
 const initialState: NoteState = {
   notes: [{id: Math.random(), note: "", title: "", selected: false}]
@@ -16,6 +16,8 @@ const reducerNotes = (
       return removeNote(state, action.note)
     case actionTypes.SELECT_NOTE:
       return selectNode(state, action.note)
+    case actionTypes.UNSELECT_NOTE:
+      return unSelectNode(state, action.note)
     default:
       return state
   }

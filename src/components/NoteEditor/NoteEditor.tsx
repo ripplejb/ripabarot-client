@@ -14,11 +14,12 @@ import {
   TextField,
   Typography
 } from "@material-ui/core";
-import {REMOVE_NOTE, SELECT_NOTE} from "../../redux/store/actionTypes";
+import {REMOVE_NOTE, SELECT_NOTE, UNSELECT_NOTE} from "../../redux/store/actionTypes";
 import {cardCloseButtonsStyle, cardContainer, cardStyle} from "./NoteEditorStyles";
 import {CancelSharp} from "@material-ui/icons";
 import {CSSTransition} from "react-transition-group";
 import './NoteEditor.css'
+import {useOutsideClickHandler} from "../../lib/OutsideClickHandler";
 
 type Props = {
   id: number
@@ -61,9 +62,15 @@ const NoteEditor: FC<Props> = (props) => {
 
   const handleNoteChange = (e: { target: { value: string; }; }) => currentNote.note = e.target.value;
   const nodeRef = useRef(null)
+  const wrapperRef = useRef(null);
+  useOutsideClickHandler(wrapperRef, () => {
+    if (currentNote.selected) {
+      dispatch({type: UNSELECT_NOTE, note: currentNote})
+    }
+  });
 
   return (
-    <>
+    <div ref={wrapperRef}>
       <Dialog open={open}
               onClose={handleClose}
               aria-labelledby="alert-dialog-title"
@@ -116,7 +123,7 @@ const NoteEditor: FC<Props> = (props) => {
           </Card>
         </div>
       </CSSTransition>
-    </>
+    </div>
   )
 }
 

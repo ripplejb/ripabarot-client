@@ -1,5 +1,6 @@
 export const ADD_NOTE = "ADD_NOTE"
 export const REMOVE_NOTE = "REMOVE_NOTE"
 export const SELECT_NOTE = "SELECT_NOTE"
+export const UNSELECT_NOTE = "UNSELECT_NOTE"
 export const LOGIN_USER = "LOGIN_USER"
 export const LOGOUT_USER = "LOGOUT_USER"

@@ -42,3 +42,11 @@ export const selectNode = (noteState: NoteState, newNode: INote | undefined) => 
   }
   return noteState
 }
+
+export const unSelectNode = (noteState: NoteState, newNode: INote | undefined) => {
+  const selectedNote = noteState.notes.find(n => (newNode !== undefined && n.id === newNode.id));
+  if (selectedNote !== undefined) {
+    noteState.notes.forEach(n => n.selected = false)
+  }
+  return noteState
+}
