@@ -40,7 +40,9 @@ export const selectNode = (noteState: NoteState, newNode: INote | undefined) => 
   if (selectedNote !== undefined) {
     noteState.notes.forEach(n => n.selected = n.id === selectedNote.id)
   }
-  return noteState
+  return {
+    ...noteState
+  }
 }
 
 export const unSelectNode = (noteState: NoteState, newNode: INote | undefined) => {
@@ -48,5 +50,7 @@ export const unSelectNode = (noteState: NoteState, newNode: INote | undefined) =
   if (selectedNote !== undefined) {
     noteState.notes.forEach(n => n.selected = false)
   }
-  return noteState
+  return {
+    ...noteState
+  }
 }
